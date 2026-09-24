@@ -1,16 +1,14 @@
-import React from 'react';
+import Hero from "@/components/Hero";
 
-const page = () => {
+export default function Home() {
   return (
-    <div>
-      home
+    <div className="min-h-screen">
+      <Hero />
 
 
 
 
-      hh
+      
     </div>
   );
-};
-
-export default page;
+}
