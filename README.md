@@ -3,13 +3,6 @@
   <h1>🏋️‍♂️ FitLog — Workout Library & Gym Companion</h1>
   <p><strong>Train with intent. Log every set.</strong></p>
 
-  <p>
-    <a href="#-about-fitlog">About</a> •
-    <a href="#-key-features">Key Features</a> •
-    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
-    <a href="#-getting-started">Getting Started</a> •
-    <a href="#-folder-structure">Folder Structure</a>
-  </p>
 
   [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
