@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+  <h1>🏋️‍♂️ FitLog — Workout Library & Gym Companion</h1>
+  <p><strong>Train with intent. Log every set.</strong></p>
 
-First, run the development server:
+  <p>
+    <a href="#-about-fitlog">About</a> •
+    <a href="#-key-features">Key Features</a> •
+    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#-folder-structure">Folder Structure</a>
+  </p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+  [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📌 About FitLog
 
-## Learn More
+**FitLog** is a modern, responsive web application built for fitness enthusiasts to explore exercise routines, structure daily workout plans, track total calorie/time metrics, and manage saved routines. Designed with a sleek dark theme optimized for gym environments, FitLog provides a seamless experience from browsing to completion.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ✨ Key Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 🏋️ **Interactive Workout Library & Deep Detail Pages**  
+  Browse exercises with rich details, including targeted muscle groups, necessary equipment, duration, estimated calories burned, ratings, and step-by-step guides.
 
-## Deploy on Vercel
+- 📅 **Smart Daily Plan Builder (Today's Plan)**  
+  Add exercises to your active plan with built-in validation rules, including a **5-lift cap restriction** to keep daily workouts intense and focused.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 📊 **Real-Time Dynamic Metrics Summary**  
+  Stat dashboard calculates total exercises, total workout minutes, and total calorie burn on the fly. Metrics update instantly when switching between **Today's Plan** and **Saved Workouts**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 🔀 **Multi-Attribute Sorting & Tab Navigation**  
+  Toggle smoothly between daily plans and bookmarked routines. Use the custom dropdown menu to dynamically sort workouts by **Duration**, **Calories**, or **Rating**.
+
+- ✅ **Interactive Progress & Toast Notification System**  
+  Mark exercises as completed with visual status toggles, remove items instantly, and receive immediate feedback through custom toast alerts.
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology Used |
+| :--- | :--- |
+| **Framework** | [Next.js](https://nextjs.org/) (App Router & Server/Client Components) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) |
+| **Typography** | Google Fonts (`Oswald` & `Inter`) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Notifications** | [React Hot Toast](https://react-hot-toast.com/) |
+| **State Sync** | React Context API + LocalStorage Hydration |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have **Node.js** (v18.0.0 or higher) and **npm** installed on your system.
+
+### Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Saidulhimu/fit-log.git](https://github.com/Saidulhimu/fit-log.git)
+   cd fit-log
