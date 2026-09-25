@@ -31,19 +31,24 @@ export const WorkoutProvider = ({ children }: { children: React.ReactNode }) => 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    try {
-      const localPlan = localStorage.getItem("fitlog_plan");
-      const localSaved = localStorage.getItem("fitlog_saved");
-      const localCompleted = localStorage.getItem("fitlog_completed");
+    const loadState = () => {
+      try {
+        const localPlan = localStorage.getItem("fitlog_plan");
+        const localSaved = localStorage.getItem("fitlog_saved");
+        const localCompleted = localStorage.getItem("fitlog_completed");
 
-      if (localPlan) setTodayPlan(JSON.parse(localPlan));
-      if (localSaved) setSavedWorkouts(JSON.parse(localSaved));
-      if (localCompleted) setCompletedWorkouts(JSON.parse(localCompleted));
-    } catch (error) {
-      console.error("Error loading state from localStorage", error);
-    } finally {
-      setIsLoading(false);
-    }
+        if (localPlan) setTodayPlan(JSON.parse(localPlan));
+        if (localSaved) setSavedWorkouts(JSON.parse(localSaved));
+        if (localCompleted) setCompletedWorkouts(JSON.parse(localCompleted));
+      } catch (error) {
+        console.error("Error loading state from localStorage", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const timeoutId = window.setTimeout(loadState, 0);
+    return () => window.clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
@@ -130,5 +135,4 @@ export const useWorkoutContext = () => {
   return context;
 };
 
-// Alias export so both `useWorkout()` and `useWorkoutContext()` work seamlessly
 export const useWorkout = useWorkoutContext;

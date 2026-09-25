@@ -18,7 +18,10 @@ export default function MetricsSummary({ workouts = [] }: MetricsSummaryProps) {
     }, 0);
 
     const totalCalories = workouts.reduce((acc, curr) => {
-        const calVal = curr.caloriesBurned ?? (curr as any).calories ?? 0;
+        const calVal =
+            curr.caloriesBurned ??
+            (curr as Workout & { calories?: unknown }).calories ??
+            0;
         const cal =
             typeof calVal === "number"
                 ? calVal
