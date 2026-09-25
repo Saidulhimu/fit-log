@@ -5,85 +5,93 @@ import { Workout } from "@/types/workout";
 import toast from "react-hot-toast";
 
 interface WorkoutContextType {
+  todayPlan: Workout[];
+  savedWorkouts: Workout[];
+  completedWorkouts: number[];
+  isLoading: boolean;
+  addToPlan: (workout: Workout) => void;
+  addToSaved: (workout: Workout) => void;
+  removeFromTodayPlan: (id: number) => void;
+  removeFromSaved: (id: number) => void;
+  toggleCompleteWorkout: (id: number) => void;
+
   plan: Workout[];
   saved: Workout[];
   completedIds: number[];
-  addToPlan: (workout: Workout) => void;
-  addToSaved: (workout: Workout) => void;
   removeFromPlan: (id: number) => void;
-  removeFromSaved: (id: number) => void;
   toggleMarkAsDone: (id: number) => void;
 }
 
 const WorkoutContext = createContext<WorkoutContextType | undefined>(undefined);
 
 export const WorkoutProvider = ({ children }: { children: React.ReactNode }) => {
-  const [plan, setPlan] = useState<Workout[]>([]);
-  const [saved, setSaved] = useState<Workout[]>([]);
-  const [completedIds, setCompletedIds] = useState<number[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
+  const [todayPlan, setTodayPlan] = useState<Workout[]>([]);
+  const [savedWorkouts, setSavedWorkouts] = useState<Workout[]>([]);
+  const [completedWorkouts, setCompletedWorkouts] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsMounted(true);
     try {
       const localPlan = localStorage.getItem("fitlog_plan");
       const localSaved = localStorage.getItem("fitlog_saved");
       const localCompleted = localStorage.getItem("fitlog_completed");
 
-      if (localPlan) setPlan(JSON.parse(localPlan));
-      if (localSaved) setSaved(JSON.parse(localSaved));
-      if (localCompleted) setCompletedIds(JSON.parse(localCompleted));
+      if (localPlan) setTodayPlan(JSON.parse(localPlan));
+      if (localSaved) setSavedWorkouts(JSON.parse(localSaved));
+      if (localCompleted) setCompletedWorkouts(JSON.parse(localCompleted));
     } catch (error) {
       console.error("Error loading state from localStorage", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (isMounted) {
-      localStorage.setItem("fitlog_plan", JSON.stringify(plan));
-      localStorage.setItem("fitlog_saved", JSON.stringify(saved));
-      localStorage.setItem("fitlog_completed", JSON.stringify(completedIds));
+    if (!isLoading) {
+      localStorage.setItem("fitlog_plan", JSON.stringify(todayPlan));
+      localStorage.setItem("fitlog_saved", JSON.stringify(savedWorkouts));
+      localStorage.setItem("fitlog_completed", JSON.stringify(completedWorkouts));
     }
-  }, [plan, saved, completedIds, isMounted]);
+  }, [todayPlan, savedWorkouts, completedWorkouts, isLoading]);
 
   const addToPlan = (workout: Workout) => {
-    if (plan.some((item) => item.id === workout.id)) {
+    if (todayPlan.some((item) => item.id === workout.id)) {
       toast.error("Already in today's plan!");
       return;
     }
-    if (plan.length >= 5) {
+    if (todayPlan.length >= 5) {
       toast.error("Cap reached! Today's plan is limited to 5 lifts.");
       return;
     }
-    setPlan((prev) => [...prev, workout]);
+    setTodayPlan((prev) => [...prev, workout]);
     toast.success("Added to today's plan!");
   };
 
   const addToSaved = (workout: Workout) => {
-    if (saved.some((item) => item.id === workout.id)) {
+    if (savedWorkouts.some((item) => item.id === workout.id)) {
       toast.error("Already in saved list!");
       return;
     }
-    setSaved((prev) => [...prev, workout]);
+    setSavedWorkouts((prev) => [...prev, workout]);
     toast.success("Saved for later!");
   };
 
-  const removeFromPlan = (id: number) => {
-    setPlan((prev) => prev.filter((item) => item.id !== id));
+  const removeFromTodayPlan = (id: number) => {
+    setTodayPlan((prev) => prev.filter((item) => item.id !== id));
     toast.success("Removed from today's plan!");
   };
 
   const removeFromSaved = (id: number) => {
-    setSaved((prev) => prev.filter((item) => item.id !== id));
+    setSavedWorkouts((prev) => prev.filter((item) => item.id !== id));
     toast.success("Removed from saved list!");
   };
 
-  const toggleMarkAsDone = (id: number) => {
-    if (completedIds.includes(id)) {
-      setCompletedIds((prev) => prev.filter((item) => item !== id));
+  const toggleCompleteWorkout = (id: number) => {
+    if (completedWorkouts.includes(id)) {
+      setCompletedWorkouts((prev) => prev.filter((item) => item !== id));
       toast("Marked as incomplete");
     } else {
-      setCompletedIds((prev) => [...prev, id]);
+      setCompletedWorkouts((prev) => [...prev, id]);
       toast.success("Workout completed! Great job!");
     }
   };
@@ -91,14 +99,22 @@ export const WorkoutProvider = ({ children }: { children: React.ReactNode }) => 
   return (
     <WorkoutContext.Provider
       value={{
-        plan,
-        saved,
-        completedIds,
+        // New Names
+        todayPlan,
+        savedWorkouts,
+        completedWorkouts,
+        isLoading,
         addToPlan,
         addToSaved,
-        removeFromPlan,
+        removeFromTodayPlan,
         removeFromSaved,
-        toggleMarkAsDone,
+        toggleCompleteWorkout,
+
+        plan: todayPlan,
+        saved: savedWorkouts,
+        completedIds: completedWorkouts,
+        removeFromPlan: removeFromTodayPlan,
+        toggleMarkAsDone: toggleCompleteWorkout,
       }}
     >
       {children}
@@ -106,10 +122,13 @@ export const WorkoutProvider = ({ children }: { children: React.ReactNode }) => 
   );
 };
 
-export const useWorkout = () => {
+export const useWorkoutContext = () => {
   const context = useContext(WorkoutContext);
   if (!context) {
-    throw new Error("useWorkout must be used within a WorkoutProvider");
+    throw new Error("useWorkoutContext must be used within a WorkoutProvider");
   }
   return context;
 };
+
+// Alias export so both `useWorkout()` and `useWorkoutContext()` work seamlessly
+export const useWorkout = useWorkoutContext;

@@ -1,11 +1,9 @@
-import React from 'react';
+import MyPlanClient from "@/components/MyPlanClient";
 
-const page = () => {
-    return (
-        <div>
-            my plan
-        </div>
-    );
-};
-
-export default page;
+export default function MyPlanPage() {
+  return (
+    <main className="container mx-auto px-4 py-8">
+      <MyPlanClient />
+    </main>
+  );
+}
